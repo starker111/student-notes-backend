@@ -16,6 +16,11 @@ app.use('/api', authRoutes);
 const notesRoutes = require('./routes/notes');
 app.use('/api/notes', notesRoutes);
 
+const path = require('path');
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // DB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
