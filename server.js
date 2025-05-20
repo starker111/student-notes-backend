@@ -9,7 +9,14 @@ const PORT = process.env.PORT || 10000;
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
+// ✅ Only ONE import of auth route
+const authRoutes = require('./routes/auth');
+app.use('/api', authRoutes);
+
+const notesRoutes = require('./routes/notes');
+app.use('/api/notes', notesRoutes);
+
+// DB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -17,21 +24,10 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log("✅ MongoDB Connected"))
 .catch(err => console.log("❌ MongoDB Error:", err));
 
-// Routes
-const notesRoutes = require('./routes/notes');
-app.use('/api/notes', notesRoutes);
-const authRoutes = require('./routes/auth');
-app.use('/api', authRoutes);
-const authRoutes = require('./routes/auth');
-app.use('/api', authRoutes);
-
-
-// Default route
 app.get('/', (req, res) => {
-  res.send('Study Notes API is working!');
+  res.send("Study Notes API is working!");
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
