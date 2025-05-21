@@ -25,4 +25,6 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   } catch (err) {
     errorMsg.textContent = '❌ Server error. Try again later.';
   }
+  const hashedPassword = await bcrypt.hash(password, 10);
+
 });
