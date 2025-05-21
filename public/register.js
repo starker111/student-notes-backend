@@ -6,7 +6,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   const errorMsg = document.getElementById('errorMsg');
 
   try {
-    const response = await fetch('http://localhost:10000/api/register', {
+    const response = await fetch('https://student-notes-backend.onrender.com/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
