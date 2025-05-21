@@ -23,7 +23,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // DB Connectio
 mongoose.connect(process.env.MONGO_URI)
-
 .then(() => console.log("✅ MongoDB Connected"))
 .catch(err => console.log("❌ MongoDB Error:", err));
 

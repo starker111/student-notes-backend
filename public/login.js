@@ -6,7 +6,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
   const errorMsg = document.getElementById('errorMsg');
 
   try {
-    const response = await fetch('/api/login', {
+    const response = await fetch('https://student-notes-backend.onrender.com/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -18,7 +18,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     if (response.ok) {
       alert('✅ Login successful!');
-      window.location.href = '/index.html'; // 🔁 This should redirect
+      window.location.href = '/index.html';
     } else {
       errorMsg.textContent = data.message || 'Invalid credentials.';
     }

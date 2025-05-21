@@ -1,4 +1,4 @@
-document.getElementById('registerForm').addEventListener('submit', async function (event) {
+document.getElementById('registerForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
   const username = document.getElementById('username').value;
@@ -6,7 +6,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   const errorMsg = document.getElementById('errorMsg');
 
   try {
-    const response = await fetch('/api/register', {
+    const response = await fetch('https://student-notes-backend.onrender.com/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -18,11 +18,11 @@ document.getElementById('registerForm').addEventListener('submit', async functio
 
     if (response.ok) {
       alert('✅ Registration successful!');
-      window.location.href = 'login.html'; // Redirect to login page
+      window.location.href = 'login.html';
     } else {
       errorMsg.textContent = data.message || 'Registration failed.';
     }
-  } catch (error) {
-    errorMsg.textContent = '❌ Server error. Please try again later.';
+  } catch (err) {
+    errorMsg.textContent = '❌ Server error. Try again later.';
   }
 });
