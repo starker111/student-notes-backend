@@ -292,22 +292,5 @@
   </div>
 
  <script src="login.js"></script>
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const errorMsg = document.getElementById('errorMsg');
-
-      // Simulate a login process
-      if (username === 'user' && password === 'password') {
-        errorMsg.textContent = '';
-        alert('Login successful!');
-        // Redirect to the main page or perform any other action
-      } else {
-        errorMsg.textContent = 'Invalid username or password.';
-      }
-    });
-  </script>
 </body>
 </html>
