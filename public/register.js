@@ -6,7 +6,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   const errorMsg = document.getElementById('errorMsg');
 
   try {
-    const response = await fetch('https://student-notes-backend.onrender.com/api/register', {
+    const response = await fetch('http://localhost:10000/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -14,17 +14,21 @@ document.getElementById('registerForm').addEventListener('submit', async functio
       body: JSON.stringify({ username, password })
     });
 
-    const data = await response.json();
+    let data = {};
+    try {
+      data = await response.json(); // safely attempt to parse
+    } catch (e) {
+      console.warn('⚠️ Could not parse JSON:', e);
+    }
 
     if (response.ok) {
-      alert('✅ Registration successful!');
-      window.location.href = 'login.html';
+      alert('✅ Registered successfully');
+      window.location.href = '/login.html';
     } else {
-      errorMsg.textContent = data.message || 'Registration failed.';
+      errorMsg.textContent = data.message || '❌ Registration failed.';
     }
   } catch (err) {
+    console.error('❌ Error:', err);
     errorMsg.textContent = '❌ Server error. Try again later.';
   }
-  const hashedPassword = await bcrypt.hash(password, 10);
-
 });

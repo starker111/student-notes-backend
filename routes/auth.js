@@ -3,27 +3,33 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
-// Register
+// ✅ Register Route
 router.post('/register', async (req, res) => {
   const { username, password } = req.body;
+
   try {
+    if (!username || !password) {
+      return res.status(400).json({ message: 'Username and password are required.' });
+    }
+
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).json({ message: 'Username already exists' });
     }
 
-    // ✅ Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = new User({ username, password: hashedPassword });
-    await user.save();
 
+    await user.save();
     res.status(201).json({ message: 'User registered successfully' });
+
   } catch (err) {
-    console.error('Registration error:', err.message);
+    console.error('❌ Register error:', err.message);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+module.exports = router;
 
 // Login
 router.post('/login', async (req, res) => {
