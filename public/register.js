@@ -1,25 +1,28 @@
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
+document.getElementById('registerForm').addEventListener('submit', async function (event) {
+  event.preventDefault();
 
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
+  const errorMsg = document.getElementById('errorMsg');
 
   try {
     const response = await fetch('/api/register', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({ username, password })
     });
 
     const data = await response.json();
 
     if (response.ok) {
-      alert('✅ Registration successful! Redirecting to login...');
-      window.location.href = '/login.html';  // ✅ works if served from Express
+      alert('✅ Registration successful!');
+      window.location.href = 'login.html'; // Redirect to login page
     } else {
-      document.getElementById('errorMsg').textContent = data.message || 'Registration failed';
+      errorMsg.textContent = data.message || 'Registration failed.';
     }
-  } catch (err) {
-    document.getElementById('errorMsg').textContent = 'Server error';
+  } catch (error) {
+    errorMsg.textContent = '❌ Server error. Please try again later.';
   }
 });
