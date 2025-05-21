@@ -292,5 +292,24 @@
   </div>
 
   <script src="register.js"></script>
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMsg = document.getElementById('errorMsg');
+      
+      if (username === '' || password === '') {
+        errorMsg.textContent = 'Please fill in all fields.';
+        return;
+      }
+      
+      // Simulate a successful registration
+      alert('Registration successful!');
+      window.location.href = 'login.html';
+    });
+
+
 </body>
 </html>

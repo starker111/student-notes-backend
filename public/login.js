@@ -5,7 +5,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   const password = document.getElementById('password').value;
 
   try {
-    const response = await fetch('https://student-notes-backend.onrender.com/api/login', {
+    const response = await fetch('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
@@ -14,13 +14,11 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      // You can save the token in localStorage if using JWT
-      localStorage.setItem('token', data.token);
-      alert('Login successful!');
-      window.location.href = '/index.html'; // ✅ This will also work now
-
+      alert('✅ Login successful! Redirecting to notes page...');
+      localStorage.setItem('token', data.token || 'demo'); // optional if JWT is returned
+      window.location.href = '/index.html';  // ✅ works if hosted from Express
     } else {
-      document.getElementById('errorMsg').textContent = data.message || 'Login failed';
+      document.getElementById('errorMsg').textContent = data.message || 'Invalid credentials';
     }
   } catch (err) {
     document.getElementById('errorMsg').textContent = 'Server error';

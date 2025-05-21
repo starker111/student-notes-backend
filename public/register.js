@@ -5,7 +5,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   const password = document.getElementById('password').value;
 
   try {
-    const response = await fetch('https://student-notes-backend.onrender.com/api/register', {
+    const response = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
@@ -14,9 +14,8 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     const data = await response.json();
 
     if (response.ok) {
-      alert('Registration successful!');
-      window.location.href = '/login.html'; // ✅ Now this will work
-
+      alert('✅ Registration successful! Redirecting to login...');
+      window.location.href = '/login.html';  // ✅ works if served from Express
     } else {
       document.getElementById('errorMsg').textContent = data.message || 'Registration failed';
     }
