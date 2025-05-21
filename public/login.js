@@ -6,23 +6,20 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
   const errorMsg = document.getElementById('errorMsg');
 
   try {
-    const response = await fetch('https://student-notes-backend.onrender.com/api/login', {
+    const res = await fetch('/api/login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     });
 
-    const data = await response.json();
-
-    if (response.ok) {
+    const data = await res.json();
+    if (res.ok) {
       alert('✅ Login successful!');
-      window.location.href = '/index.html';
+      window.location.href = 'index.html';
     } else {
-      errorMsg.textContent = data.message || 'Invalid credentials.';
+      errorMsg.textContent = data.message;
     }
-  } catch (err) {
-    errorMsg.textContent = '❌ Server error. Try again later.';
+  } catch {
+    errorMsg.textContent = '❌ Server error';
   }
 });
