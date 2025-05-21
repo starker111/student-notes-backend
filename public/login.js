@@ -1,26 +1,27 @@
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
+document.getElementById('loginForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
+  const errorMsg = document.getElementById('errorMsg');
 
   try {
     const response = await fetch('/api/login', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({ username, password })
     });
 
     const data = await response.json();
 
     if (response.ok) {
-      alert('✅ Login successful! Redirecting to notes page...');
-      localStorage.setItem('token', data.token || 'demo'); // optional if JWT is returned
-      window.location.href = '/index.html';  // ✅ works if hosted from Express
+      alert('✅ Login successful!');
+      window.location.href = '/index.html';  // ✅ Redirect to main page
     } else {
-      document.getElementById('errorMsg').textContent = data.message || 'Invalid credentials';
+      errorMsg.textContent = data.message || 'Invalid username or password.';
     }
   } catch (err) {
-    document.getElementById('errorMsg').textContent = 'Server error';
+    errorMsg.textContent = '❌ Server error. Please try again later.';
   }
 });
