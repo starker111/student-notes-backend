@@ -1,13 +1,3 @@
-// Wake up Render backend before login
-(async function wakeUpServer() {
-  try {
-    await fetch("https://student-notes-backend.onrender.com/");
-    console.log("✅ Server wake-up request sent");
-  } catch (error) {
-    console.warn("⚠️ Wake-up failed:", error);
-  }
-})();
-
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -16,6 +6,10 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
   const errorMsg = document.getElementById('errorMsg');
 
   try {
+    // 1. Wake up Render before API call
+    await fetch("https://student-notes-backend.onrender.com/");
+
+    // 2. Now send actual login request
     const res = await fetch('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -30,6 +24,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
       errorMsg.textContent = data.message;
     }
   } catch {
-    errorMsg.textContent = '❌ Server error';
+    errorMsg.textContent = '❌ Server error. Try again later.';
   }
 });

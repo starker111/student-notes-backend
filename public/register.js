@@ -1,13 +1,3 @@
-// Wake up Render backend before registration
-(async function wakeUpServer() {
-  try {
-    await fetch("https://student-notes-backend.onrender.com/");
-    console.log("✅ Server wake-up request sent");
-  } catch (error) {
-    console.warn("⚠️ Wake-up failed:", error);
-  }
-})();
-
 document.getElementById('registerForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -16,6 +6,10 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   const errorMsg = document.getElementById('errorMsg');
 
   try {
+    // 1. Wake up Render before API call
+    await fetch("https://student-notes-backend.onrender.com/");
+
+    // 2. Now send actual registration request
     const res = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -29,7 +23,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     } else {
       errorMsg.textContent = data.message;
     }
-  } catch {
-    errorMsg.textContent = '❌ Server error';
+  } catch (err) {
+    errorMsg.textContent = '❌ Server error. Try again later.';
   }
 });
